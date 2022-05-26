@@ -56,11 +56,11 @@ app.post('/Login', (req,
             const jsonData = JSON.parse(jsonFile); //members.json을 string형으로 변환하여 jsonData에 저장
 
             const members = jsonData.members; //members.json에서 members를 members변수에 저장
-            const {name, password} = req.body;
+            const {id, password} = req.body;
 
             for (let idx = 0; idx < members.length; idx++) {
                 const member = members[idx];
-                if (member.name === name) {                //로그인 시 name이 일치하면
+                if (member.id === id) {                //로그인 시 name이 일치하면
                     if (member.password === password) {    //로그인 시 password가 일치하면
                         console.log("Login Success");
                         return res.status(200).send("login success"); //로그인 성공
