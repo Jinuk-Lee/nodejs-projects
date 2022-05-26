@@ -1,0 +1,16 @@
+{
+  "reviews": [
+    {
+      "id": 1,
+      "star_ratings": 5,
+      "writer": "Jinuk",
+      "comments": "짜장면 드세요. 면빨이 쫄깃해요."
+    },
+    {
+      "id": 2,
+      "star_ratings": 5,
+      "writer": "Donggwon",
+      "comments": "바삭 바삭 탕수육"
+    }
+  ]
+}

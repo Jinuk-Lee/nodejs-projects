@@ -1,0 +1,80 @@
+{
+  "menus": [
+    {
+      "id": 1,
+      "menu": "짜장면",
+      "price": 8000
+    },
+    {
+      "id": 2,
+      "menu": "짬뽕",
+      "price": 8000
+    },
+    {
+      "id": 3,
+      "menu": "탕수육",
+      "price": 16000
+    },
+    {
+      "id": 4,
+      "menu": "팔보채",
+      "price": 56000
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "ratings": 5,
+      "writer": "Jinuk",
+      "comments": "짜장면 드세요. 면빨이 쫄깃해요."
+    },
+    {
+      "id": 2,
+      "ratings": 5,
+      "writer": "Donggwon",
+      "comments": "바삭 바삭 탕수육"
+    }
+  ],
+  "bookmark": [
+    {
+      "id": 1,
+      "subscriber": "Jinuk",
+      "connect": "JinukLee@naver.com"
+    },
+    {
+      "id": 2,
+      "subscriber": "Donggwon",
+      "connect": "DonggwonSeo@naver.com"
+    }
+  ],
+  "businessInformation": [
+    {
+      "id": 1,
+      "state": "break-time",
+      "time": "09:00 ~ 18:00",
+      "holiday": "Friday"
+    }
+  ],
+  "members": [
+    {
+      "id": 1,
+      "name": "Mingi Kim",
+      "password": "mingi22",
+      "address": "대전 유성구",
+      "email": "mingi_kim@naver.com"
+    }
+
+  ],
+  "payment": [
+    {
+      "id": 1,
+      "name": "cash",
+      "value": "true"
+    },
+    {
+      "id": 2,
+      "name": "credit_card",
+      "value": "true"
+    }
+  ]
+}

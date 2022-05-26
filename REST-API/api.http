@@ -1,0 +1,11 @@
+GET localhost:3000/members
+Accept: application/json
+
+###
+POST localhost:3000/members
+Content-Type: application/json
+
+{
+  "name": "ming",
+  "password": "22"
+}
