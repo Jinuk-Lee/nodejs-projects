@@ -1,7 +1,7 @@
 {
   "members": [
     {
-      "number": 1,
+      "idx": 1,
       "name": "Mingi Kim",
       "id": "mingikim@naver.com",
       "password": "mingi22",
@@ -9,3 +9,4 @@
     }
   ]
 }
+{"members":[{"id":"lee991227@naver.com","password":"jinuk22"}]}
