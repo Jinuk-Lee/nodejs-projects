@@ -1,12 +1,11 @@
 {
   "members": [
     {
-      "idx": 1,
-      "name": "Mingi Kim",
-      "id": "mingikim@naver.com",
-      "password": "mingi22",
-      "address": "대전 유성구 한울 아파트 1003호"
+        "id": 1,
+        "name": "Mingi Kim",
+        "email": "mingikim@naver.com",
+        "password": "mingi22",
+        "address": "대전 유성구 한울 아파트 1003호"
     }
   ]
 }
-{"members":[{"id":"lee991227@naver.com","password":"jinuk222"}]}
