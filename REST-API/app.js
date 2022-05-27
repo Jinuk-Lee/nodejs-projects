@@ -7,7 +7,9 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-app.post('/SignUp', (req,
+
+//localhost:3000/signup
+app.post('/signup', (req,
                      res) => {
     console.log("POST /SignUp");
 
@@ -16,12 +18,13 @@ app.post('/SignUp', (req,
             if (error) return console.log(error);
             const jsonData = JSON.parse(jsonFile); //members.json을 string형으로 변환하여 jsonData에 저장
             //string("") -> json 변경
+
             const members = jsonData.members; //members.json에서 members를 members변수에 저장
             const {id,password} = req.body;
 
             for (let idx = 0; idx < members.length; idx++) {
                 const member = members[idx];
-                if (member.id === id) {
+                if (member.id === id) {  //id가 중복되면 회원가입 실패
                     console.log("SignUp Failed - already exists id");
                     return res.status(404).send( "SignUp Failed - already exists id");
                 }
@@ -45,8 +48,8 @@ app.post('/SignUp', (req,
                 });
         });
 });
-
-app.post('/Login', (req,
+//localhost:3000/login
+app.post('/login', (req,
                     res) => {
     console.log("POST /Login");
 
@@ -71,7 +74,7 @@ app.post('/Login', (req,
             res.status(404).send("Login failed"); //둘 중 하나라도 틀리면 로그인 실패
         });
 });
-
+//localhost:3000/reviews
 app.post('/reviews', (req
     ,res )=> {
     console.log("POST /reviews");
