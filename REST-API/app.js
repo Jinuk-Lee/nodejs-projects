@@ -1,5 +1,6 @@
 const fs = require('fs');
 const express = require("express");
+const {json} = require("express");
 
 const app = express();
 app.use(express.json());
@@ -9,6 +10,7 @@ app.use(express.urlencoded({
 
 
 //localhost:3000/signup
+//회원가입 구현
 app.post('/signup', (req,
                      res) => {
     console.log("POST /SignUp");
@@ -16,27 +18,23 @@ app.post('/signup', (req,
     fs.readFile('./members.json', 'utf8',
         (error, jsonFile) => {
             if (error) return console.log(error);
-
             const jsonData = JSON.parse(jsonFile); //members.json을 string형으로 변환하여 jsonData에 저장
-            //string("") -> json 변경
 
-            const members = jsonData.members; //members.json에서 members를 members변수에 저장
-            const {id,email} = req.body;
+            const {identification_number} = req.body;
 
 
-            for (let idx = 0; idx < members.length; idx++) {
-                const member = members[idx];
-                if (member.id === id) {             //고유 식별자 중복 검사
-                    if(member.email===email)      //email 중복검사
-                    console.log("SignUp Failed - already exists id");
-                    return res.status(404).send( "SignUp Failed - already exists id");
-                }
+            for (let idx = 0; idx < jsonData.length; idx++) {
+                const member = jsonData[idx];
+                    if(member.identification===identification_number) {  //1인 1계정제한 주민번호 비교
+                        console.log("SignUp Failed - already exists");
+                        return res.status(404).send("SignUp Failed - already exists");
+                    }
+
             }
 
-            members.push(req.body);
-            //const newmembers = JSON.stringify(members,null,4);
+            jsonData.push(req.body);
 
-            fs.writeFile('./members.json', JSON.stringify(members,null,4),
+            fs.writeFile('./members.json', JSON.stringify(jsonData,null,4),
                 "utf8", (err) => {
 
                     if (error) return console.log(error);
