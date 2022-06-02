@@ -6,6 +6,13 @@
         "email": "leejinuk@naver.com",
         "password": "jinuk22",
         "address": "대전 대덕구 한울 아파트 1003호"
+    },
+    {
+        "name": "Dongyeop Lee",
+        "identification_number": "991535-1111111",
+        "phone_number": "010-0000-0001",
+        "email": "leedongyeop@naver.com",
+        "password": "dongyeop22",
+        "address": "대전 서구 둥지 아파트 1003호"
     }
-
 ]
