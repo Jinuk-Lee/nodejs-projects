@@ -1,11 +1,11 @@
-{
-  "members": [
+[
     {
-        "id": 1,
-        "name": "Mingi Kim",
-        "email": "mingikim@naver.com",
-        "password": "mingi22",
-        "address": "대전 유성구 한울 아파트 1003호"
+        "name": "Jinuk Lee",
+        "identification_number": "991227-1111111",
+        "phone_number": "010-1111-1111",
+        "email": "leejinuk@naver.com",
+        "password": "jinuk22",
+        "address": "대전 대덕구 한울 아파트 1003호"
     }
-  ]
-}
+
+]
