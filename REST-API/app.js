@@ -24,7 +24,7 @@ app.post('/signup', (req,
 
             for (let idx = 0; idx < jsonData.length; idx++) {
                 const member = jsonData[idx];
-                if (member.identification === identification_number) {  //1인 1계정제한 주민번호 비교
+                if (member.identification_number === identification_number) {  //1인 1계정제한 주민번호 비교
                     console.log("SignUp Failed - already exists");
                     return res.status(404).send("SignUp Failed - already exists");
                 }
@@ -57,7 +57,6 @@ app.post('/login', (req,
             for (let idx = 0; idx < jsonData.length; idx++) {
                 const member = jsonData[idx];
                 if ((member.email === email) && (member.password === password)) {                //로그인 시 name이 일치하면
-                    console.log("Login Success");
                     fs.readFile('./loginlist.json','utf8',
                         (error,loginFile)=>{
                             if (error) return console.log(error);
@@ -72,16 +71,16 @@ app.post('/login', (req,
 
                             fs.writeFile('./loginlist.json', JSON.stringify(loginData, null, 4),
                                 "utf8", (err) =>{
-
                                     if(error) return console.log(error);
+                                    console.log("Login Success");
                                     return res.status(200).send("Login Success"); //로그인 성공
                             });
                     });
 
                 }
             }
-         console.log("Login Failed");
-         res.status(404).send("Login Failed"); //둘 중 하나라도 틀리면 로그인 실패
+            console.log("Login Failed");
+            res.status(404).send("Login Failed"); //둘 중 하나라도 틀리면 로그인 실패
     });
 });
 
@@ -123,9 +122,10 @@ app.post('/reviews', (req
                     });
 
                 }
+                console.log("Review Upload Failed");
+                res.status(404).send("Review Upload Faliled");
             }
-        console.log("Review Upload Failed");
-        res.status(404).send("Review Upload Faliled");
+
     });
 });
 
