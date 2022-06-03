@@ -8,8 +8,6 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-
-//localhost:3000/signup
 app.post('/signup', (req,
                      res) => {
     console.log("POST /signup");
@@ -19,30 +17,28 @@ app.post('/signup', (req,
             if (error) return console.log(error);
             const jsonData = JSON.parse(jsonFile); //members.json을 string형으로 변환하여 jsonData에 저장
 
-            const {identification_number} = req.body;
+            const {email, password, identification_number} = req.body;
 
-
-            for (let idx = 0; idx < jsonData.length; idx++) {
-                const member = jsonData[idx];
-                if (member.identification_number === identification_number) {  //1인 1계정제한 주민번호 비교
+            for (let i = 0; i < jsonData.length; i++) {
+                const member = jsonData[i];
+                if ( (identification_number === member.identification_number)
+                    || ((member.email === email) && (member.password === password))) {
                     console.log("SignUp Failed - already exists");
                     return res.status(404).send("SignUp Failed - already exists");
                 }
-
             }
-
             jsonData.push(req.body);
 
             fs.writeFile('./members.json', JSON.stringify(jsonData, null, 4),
                 "utf8", (err) => {
 
                     if (error) return console.log(error);
-                    console.log(" SignUp Success");
+                    console.log("SignUp Success");
                     res.status(200).send("SignUp Success");
                 });
         });
 });
-//localhost:3000/login
+
 app.post('/login', (req,
                     res) => {
     console.log("POST /login");
@@ -54,85 +50,81 @@ app.post('/login', (req,
 
             const {email, password} = req.body;
 
-            for (let idx = 0; idx < jsonData.length; idx++) {
-                const member = jsonData[idx];
-                if ((member.email === email) && (member.password === password)) {                //로그인 시 name이 일치하면
-                    fs.readFile('./loginlist.json','utf8',
-                        (error,loginFile)=>{
+            for (let i = 0; i < jsonData.length; i++) {
+                const member = jsonData[i];
+                if ((member.email === email) && (member.password === password)) {
+                    console.log("Login Success");
+
+                    const nameData = {
+                        email: req.body.email
+                    };
+
+                    fs.writeFile('./loginlist.json', JSON.stringify(nameData, null, 4),
+                        "utf8", (err) => {
+
                             if (error) return console.log(error);
+                        });
 
-                            const loginData = JSON.parse(loginFile);
-
-                            const newloginData = {  //배열의 이름
-                                email: req.body.email
-                            };
-
-                            loginData.push(newloginData);
-
-                            fs.writeFile('./loginlist.json', JSON.stringify(loginData, null, 4),
-                                "utf8", (err) =>{
-                                    if(error) return console.log(error);
-                                    console.log("Login Success");
-                                    return res.status(200).send("Login Success"); //로그인 성공
-                            });
-                    });
-
+                    return res.status(200).send("Login Success"); //로그인 성공
                 }
             }
-            console.log("Login Failed");
-            res.status(404).send("Login Failed"); //둘 중 하나라도 틀리면 로그인 실패
-    });
+            console.log("Login failed");
+            res.status(404).send("Login failed"); //둘 중 하나라도 틀리면 로그인 실패
+        });
 });
 
-//localhost:3000/reviews
+//아래는 리뷰를 작성하는 코드
 app.post('/reviews', (req
     , res) => {
     console.log("POST /reviews");
 
-    fs.readFile('./loginlist.json', 'utf8',
-        (err, loginFile) => {
-            if (err) return console.log(err);
-            const loginData = JSON.parse(loginFile); //members.json을 string형으로 변환하여 jsonData에 저장
+    fs.readFile('./loginlist.json', 'utf8', (err, loginFile) => {
+        if (err) return console.log(err);
+        const loginData = JSON.parse(loginFile);
 
-            const email = req.body.email;
+        const email = req.body.email;
 
-            for (let i = 0; i < loginData.length; i++) {
-                const loginEmail = loginData[i];
-                if (email === loginEmail.email) {
-                    fs.readFile('./reviews.json', 'utf8',
-                        (error, reviewsFile) => {
-                            if (error) return console.log(error);
+        for (let i = 0; i < loginData.length; i++) {
+            const loginEmail = loginData[i];
+            if (email === loginEmail.email) {
+                fs.readFile('./reviews.json', 'utf8',
+                    (error, reviewsFile) => {
+                        if (error) return console.log(error);
 
-                            const reviewData = JSON.parse(reviewsFile); //members.json을 string형으로 변환하여 jsonData에 저장
+                        const reviewData = JSON.parse(reviewsFile); //members.json을 string형으로 변환하여 jsonData에 저장
 
-                            const newReviewData = {
-                                star_ratings: req.body.star_ratings,
-                                writer: req.body.writer,
-                                comments: req.body.comments
-                            };
+                        const newReviewData = {
+                            star_ratings: req.body.star_ratings,
+                            writer: req.body.writer,
+                            comments: req.body.comments
+                        };
 
-                            reviewData.push(newReviewData);
+                        reviewData.push(newReviewData);
 
-                            fs.writeFile('./reviews.json', JSON.stringify(reviewData, null, 4),
-                                "utf8", (error) => {
+                        fs.writeFile('./reviews.json', JSON.stringify(reviewData, null, 4),
+                            "utf8", (error) => {
 
-                                    if (error) return console.log(error);
-                                    return res.status(200).send("Review Upload");
+                                if (error) return console.log(error);
+                                return res.status(200).send("review upload");
                             });
                     });
-
-                }
-                console.log("Review Upload Failed");
-                res.status(404).send("Review Upload Faliled");
             }
-
+            res.status(404).send(" failed");
+        }
     });
 });
-
 app.get('/reviews', (req,
                      res, next) => {
     console.log("GET /reviews");
-    res.status(200).send("GET /reviews");
+    // res.status(200).send("GET /reviews");
+    fs.readFile('./reviews.json', 'utf8',
+        (error, reviewsFile) => {
+            if (error) return console.log(error);
+
+            const reviewData = JSON.parse(reviewsFile);
+
+            res.status(200).send(reviewData);
+        });
 });
 
 app.listen(3000, () => {
